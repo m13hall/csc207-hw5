@@ -1,6 +1,6 @@
+package hallmira.utils;
 import java.io.PrintWriter;
 
-import hallmira.utils.UshahidiExtensions;
 import edu.grinnell.glimmer.ushahidi.UshahidiClient;
 import edu.grinnell.glimmer.ushahidi.UshahidiIncident;
 import edu.grinnell.glimmer.ushahidi.UshahidiUtils;
