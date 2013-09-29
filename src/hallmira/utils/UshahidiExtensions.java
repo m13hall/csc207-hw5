@@ -11,7 +11,9 @@ import edu.grinnell.glimmer.ushahidi.UshahidiLocation;
 import edu.grinnell.glimmer.ushahidi.UshahidiUtils;
 import edu.grinnell.glimmer.ushahidi.UshahidiWebClient;
 
+
 public class UshahidiExtensions {
+	
 public static void printIncident(PrintWriter pen, UshahidiIncident inc){
 	pen.println("Incident #: "+ inc.getTitle());
 	pen.println("DESCRIPTION");
@@ -43,4 +45,22 @@ public static UshahidiIncidentList incidentList(){
 	}
 	return list;
 }
+
+public static int getAttributeToCompare(UshahidiIncident inc, String attribute){
+	if (attribute.compareTo("ID") == 0){
+		return inc.getId();
+	}
+	if(attribute.compareTo("Date") == 0){
+		///do some parsing, put in terms of days
+		return inc.getMode(); //change!!!
+	}else
+		return -1;
+}
+
+public static UshahidiIncidentList putInOrder(UshahidiIncidentList list, String attribute){
+	//initialze list
+	
+		
+}
+
 }
