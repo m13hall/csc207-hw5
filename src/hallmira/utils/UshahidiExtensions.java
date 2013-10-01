@@ -63,7 +63,7 @@ public class UshahidiExtensions {
 	//		return -1;
 	//}
 
-	public static ArrayList orderByDate(UshahidiIncidentList list)throws Exception{
+	public static ArrayList orderByDate(UshahidiClient list)throws Exception{
 		//initialze list
 		ArrayList<UshahidiIncident> sortedList = new ArrayList<UshahidiIncident>();
 
@@ -102,7 +102,7 @@ public class UshahidiExtensions {
 
 	}
 
-	public static ArrayList orderById(UshahidiIncidentList list)throws Exception{
+	public static ArrayList orderById(UshahidiClient list)throws Exception{
 		//initialze list
 		ArrayList<UshahidiIncident> sortedList = new ArrayList<UshahidiIncident>();
 
@@ -133,7 +133,7 @@ public class UshahidiExtensions {
 
 	}
 
-	public static void getExtremes(PrintWriter pen, UshahidiIncidentList list) throws Exception{
+	public static void getExtremes(PrintWriter pen, UshahidiClient list) throws Exception{
 		ArrayList<UshahidiIncident> sorted = orderById(list);
 		pen.println("Smallest Id: ");
 		printIncident(pen, (UshahidiIncident)sorted.get(0));
@@ -142,7 +142,7 @@ public class UshahidiExtensions {
 
 	}
 
-	public static UshahidiIncident[] identifyArray(UshahidiIncidentList list, Calendar startDate, Calendar endDate) throws Exception{
+	public static UshahidiIncident[] identifyArray(UshahidiClient list, Calendar startDate, Calendar endDate) throws Exception{
 		ArrayList<UshahidiIncident> sorted = orderById(list);
 		int i = 0;
 		int startIndex = -1;

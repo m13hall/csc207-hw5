@@ -24,17 +24,17 @@ public class PrintIncidentExperiment {
        /* while (list.hasMoreIncidents()){
         	UshahidiExtensions.printIncident(pen, list.nextIncident());
         }*/
-        UshahidiExtensions.printList(pen, UshahidiExtensions.orderById(TestUshahidis.createIncidents()));
+        UshahidiExtensions.printList(pen, UshahidiExtensions.orderByDate(TestUshahidis.createIncidents()));
         
         UshahidiExtensions.getExtremes(pen, TestUshahidis.createIncidents());
         Calendar start = Calendar.getInstance();
         Calendar end = Calendar.getInstance();
         start.set(1994, 6, 13);
         end.set(2013, 9, 30);
-        UshahidiExtensions.identify(pen, TestUshahidis.createIncidents(),start, end);
+        //UshahidiExtensions.identify(pen, TestUshahidis.createIncidents(),start, end);
         //One that requires connecting to the server
         UshahidiClient webclient = new UshahidiWebClient("https://farmersmarket.crowdmap.com");
-        UshahidiExtensions.printIncident(pen, webclient.nextIncident());
+        UshahidiExtensions.printList(pen, UshahidiExtensions.orderByDate(webclient));
     } // main(String[])
     
 

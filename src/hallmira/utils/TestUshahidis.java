@@ -48,11 +48,11 @@ public class TestUshahidis {
 		list.addIncident( new UshahidiIncident(12, "L", dates, location3, "A"));
 		
 		Calendar dater = Calendar.getInstance();
-		dater.set(2001, 1, 1);
+		dater.set(2001, 1, 1, 9, 30);
 		list.addIncident(new UshahidiIncident(7, "G", dater, location3, "A"));
 
 		Calendar dateq = Calendar.getInstance();
-		dateq.set(2001, 1, 1);
+		dateq.set(2001, 1, 1, 7, 10);
 		list.addIncident( new UshahidiIncident(8, "H", dateq, location3, "A"));
 
 		Calendar datep = Calendar.getInstance();
