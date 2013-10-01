@@ -3,68 +3,76 @@ package hallmira.utils;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-
 import edu.grinnell.glimmer.ushahidi.UshahidiClient;
 import edu.grinnell.glimmer.ushahidi.UshahidiIncident;
-import edu.grinnell.glimmer.ushahidi.UshahidiIncidentList;
-import edu.grinnell.glimmer.ushahidi.UshahidiLocation;
-import edu.grinnell.glimmer.ushahidi.UshahidiUtils;
-import edu.grinnell.glimmer.ushahidi.UshahidiWebClient;
 
-
+/**
+ * 
+ * @author southpaw14 -- Andrew Kelley
+ * @author m13hall -- Mira Hall
+ * 
+ * This class is an extension for Ushahidi that includes
+ * methods to manipulate UshahidiIncidentList[s].
+ *
+ */
 public class UshahidiExtensions {
 
+	/**
+	 * printIncident prints out a given incident.
+	 * @param pen, a pen to write out the incident
+	 * @param inc, the incident to write
+	 * 
+	 * NOTE: For purely reading the results of the list tests, 
+	 * the boolean printFlag set equal to false will allow for 
+	 * less clutter when reading the output as it only shows the
+	 * title.
+	 * If you want the whole incident to be printed, change
+	 * printFlag to true.
+	 */
 	public static void printIncident(PrintWriter pen, UshahidiIncident inc){
+		//This flag prevents some everything but the title from being printed
+		boolean printFlag = false;
 		pen.println("Incident #: "+ inc.getTitle());
-		/*	pen.println("DESCRIPTION");
-	pen.println("Location: "+ inc.getLocation());
-	pen.println("Status: (" + inc.getMode()+ ", "+ inc.getActive() + 
-			", " + inc.getVerified() + ")");
-		 */
-	}
-	public static UshahidiIncidentList incidentList(){
-		String[] names = {"muffin", "blueberry", "pancake", "waffle", 
-				"hash brown", "bacon", "sausage", "eggs", 
-				"yogurt", "orange", "strawberries", "pizza"};
-		String[] descriptions = {"good", "bad", "awesomesauce", "mindblowing",
-				"belated", "cold", "warm", "tasty", "awkward",
-				"healthy", "delicious", "vitamin-rich", "greasy"};
-		String[] locations = {"house", "apartment", "park", "America",
-				"grocery store", "coffee shop", "GRINNELL", "Iowa",
-				"farm", "Florida", "field", "Paglioni's"};
-
-
-		UshahidiIncidentList list = new UshahidiIncidentList();
-		for (int i = 0; i < 12; i++){
-			Calendar date = Calendar.getInstance();
-			date.set(i, i, i, i, i, i);
-			UshahidiLocation location = new UshahidiLocation(i, locations[i]);
-			list.addIncident(new UshahidiIncident(i, names[i], date, location,
-					descriptions[i]));
-
-		}
-		return list;
+		if (printFlag) {
+			pen.println("DESCRIPTION");
+			pen.println("Location: "+ inc.getLocation());
+			pen.println("Status: (" + inc.getMode()+ ", "+ inc.getActive() + 
+					", " + inc.getVerified() + ")");
+		}	 
 	}
 
-	public static void printList(PrintWriter pen, ArrayList list) {
+	/**
+	 * printList takes prints out an ArrayList of UshahidiIncidents.
+	 * @param pen, a PrintWriter
+	 * @param list, an UshahidiIncident list
+	 */
+	public static void printList(PrintWriter pen, ArrayList<UshahidiIncident> list) {
 		for(int i = 0; i < list.size(); i++){
-			printIncident(pen, (UshahidiIncident)list.get(i));
+			printIncident(pen, list.get(i));
 		}
 	}
-	//public static int getAttributeToCompare(UshahidiIncident inc, String attribute){
-	//	if (attribute.compareTo("ID") == 0){
-	//		return inc.getId();
-	//	}
-	//	if(attribute.compareTo("Date") == 0){
-	//		///do some parsing, put in terms of days
-	//		return inc.getMode(); //change!!!
-	//	}else
-	//		return -1;
-	//}
 
-	public static ArrayList orderByDate(UshahidiClient list)throws Exception{
-		//initialze list
+	/**
+	 * printList takes prints out a UshahidiClient list of UshahidiIncidents
+	 * @param pen, a PrintWriter
+	 * @param list, an UshahidiClient
+	 * @throws Exception
+	 */
+	public static void printList(PrintWriter pen, UshahidiClient list) throws Exception{
+		while(list.hasMoreIncidents()) {
+			printIncident(pen, list.nextIncident());
+		}
+	}
+
+	/**
+	 * orderByDate takes a UshahidiClient and returns an ArrayList of UshahidiIncidents
+	 * in order by their date
+	 * @param list, an UshahidiClient
+	 * @return an ArrayList of UshahidiIncidents in order of date
+	 * @throws Exception
+	 */
+	public static ArrayList<UshahidiIncident> orderByDate(UshahidiClient list)throws Exception{
+		//initialize list
 		ArrayList<UshahidiIncident> sortedList = new ArrayList<UshahidiIncident>();
 
 		//put first element UshahidiIncidentList
@@ -82,6 +90,7 @@ public class UshahidiExtensions {
 					sortedList.add(i, next);
 					break;
 				}
+				//If dates are the same, orders by lowest to highest Id number.
 				else if (j == 0) {
 					if(sortedList.get(i).getId() > next.getId()){
 						sortedList.add(i, next);
@@ -97,13 +106,20 @@ public class UshahidiExtensions {
 			}//for	
 			continue;
 		}//while
-
 		return sortedList;
-
 	}
 
-	public static ArrayList orderById(UshahidiClient list)throws Exception{
-		//initialze list
+	/**
+	 * orderById takes a UshahidiClient and returns an ArrayList of UshahidiIncidents
+	 * in order by their Id number
+	 * @param list, an UshahidiClient
+	 * @return an ArrayList of UshahidiIncidents in order of lowest to highest Id.
+	 * @throws Exception
+	 * 
+	 * NOTE: we are under the assumption that no to incidents may have the same Id number
+	 */
+	public static ArrayList <UshahidiIncident> orderById(UshahidiClient list)throws Exception{
+		//initialize list
 		ArrayList<UshahidiIncident> sortedList = new ArrayList<UshahidiIncident>();
 
 		//put first element UshahidiIncidentList
@@ -133,6 +149,13 @@ public class UshahidiExtensions {
 
 	}
 
+	/**
+	 * getExtremes prints the incidents, from a list, with the smallest 
+	 * and largest Id number.
+	 * @param pen, a PrintWriter
+	 * @param list, an UshahidiClient
+	 * @throws Exception
+	 */
 	public static void getExtremes(PrintWriter pen, UshahidiClient list) throws Exception{
 		ArrayList<UshahidiIncident> sorted = orderById(list);
 		pen.println("Smallest Id: ");
@@ -142,40 +165,64 @@ public class UshahidiExtensions {
 
 	}
 
+	/**
+	 * identifyArray creates a sorted ArrayList of UshahidiIncidents
+	 * and then creates an UshahidiIncident[] (array) of the elements of the
+	 * original list between the start date and end date(inclusive)
+	 * @param list, an UshahidiClient
+	 * @param startDate, a Calendar date
+	 * @param endDate, a Calendar date
+	 * @return an array that contains incidents occurring between
+	 * start date and end date.
+	 * @throws Exception
+	 */
 	public static UshahidiIncident[] identifyArray(UshahidiClient list, Calendar startDate, Calendar endDate) throws Exception{
 		ArrayList<UshahidiIncident> sorted = orderById(list);
 		int i = 0;
 		int startIndex = -1;
 		int endIndex = -1;
-			while(startIndex == -1 && i < sorted.size()){
-				if(sorted.get(i).getDate().compareTo(startDate) >= 0){
-					startIndex = i;
-				}else {
-					i++;
-				}
-			}//while
-			while(endIndex == -1 && i < sorted.size()){
-				if(sorted.get(i).getDate().compareTo(endDate) >= 0){
-					endIndex = i-1;
-				}else {
-					i++;
-				}
-			}//while
-
+		//marks the index of the first incident with date later than startDate
+		while(startIndex == -1 && i < sorted.size()){
+			if(sorted.get(i).getDate().compareTo(startDate) >= 0){
+				startIndex = i;
+			}else {
+				i++;
+			}
+		}//while
+		//marks the index of the last incident with date earlier than endDate 
+		while(endIndex == -1 && i < sorted.size()){
+			if(sorted.get(i).getDate().compareTo(endDate) >= 0){
+				endIndex = i-1;
+			}else {
+				i++;
+			}
+		}//while
 
 		if (startIndex == -1){
 			throw new Exception("No incidents between startDate and endDate");
 		}else if (endIndex == -1){
 			endIndex = sorted.size() - 1;
 		}
+		//Initializes UshahidiIncident array
 		UshahidiIncident[] returnArray = new UshahidiIncident[endIndex-startIndex + 1];
-			return (UshahidiIncident[]) sorted.subList(startIndex, endIndex + 1).toArray(returnArray);
+		//Inserts incidents into UshahidiIncendetn array
+		return (UshahidiIncident[]) sorted.subList(startIndex, endIndex + 1).toArray(returnArray);
 	}
-	public static void identify(PrintWriter pen, UshahidiIncidentList list, Calendar startDate, Calendar endDate) throws Exception{
+
+	/**
+	 * identify prints the incidents that are between startDate
+	 * and endDate.
+	 * @param pen, a PrintWriter
+	 * @param list, an UshahidiClient
+	 * @param startDate, a Calendar date
+	 * @param endDate, a Calendar date
+	 * @throws Exception
+	 */
+	public static void identify(PrintWriter pen, UshahidiClient list, Calendar startDate, Calendar endDate) throws Exception{
 		UshahidiIncident[] relevant = identifyArray(list, startDate, endDate);
 		for (int i = 0; i < relevant.length; i++){
 			printIncident(pen, relevant[i]);
 		}
 	}
-	}
+}
 
