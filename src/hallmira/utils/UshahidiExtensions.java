@@ -65,7 +65,7 @@ public class UshahidiExtensions {
 
 	public static ArrayList orderByDate(UshahidiIncidentList list)throws Exception{
 		//initialze list
-		ArrayList sortedList = new ArrayList<UshahidiIncident>();
+		ArrayList<UshahidiIncident> sortedList = new ArrayList<UshahidiIncident>();
 
 		//put first element UshahidiIncidentList
 		if(list.hasMoreIncidents()){
@@ -77,13 +77,13 @@ public class UshahidiExtensions {
 		while(list.hasMoreIncidents()){
 			UshahidiIncident next = list.nextIncident();
 			for(int i = 0; i < sortedList.size(); i++){
-				int j = ((UshahidiIncident)sortedList.get(i)).getDate().compareTo(next.getDate());
+				int j = sortedList.get(i).getDate().compareTo(next.getDate());
 				if (j > 0){ //if next has an earlier date than
 					sortedList.add(i, next);
 					break;
 				}
 				else if (j == 0) {
-					if(((UshahidiIncident)sortedList.get(i)).getId() > next.getId()){
+					if(sortedList.get(i).getId() > next.getId()){
 						sortedList.add(i, next);
 						break;
 					}else {
@@ -104,7 +104,7 @@ public class UshahidiExtensions {
 
 	public static ArrayList orderById(UshahidiIncidentList list)throws Exception{
 		//initialze list
-		ArrayList sortedList = new ArrayList<UshahidiIncident>();
+		ArrayList<UshahidiIncident> sortedList = new ArrayList<UshahidiIncident>();
 
 		//put first element UshahidiIncidentList
 		if(list.hasMoreIncidents()){
@@ -116,13 +116,13 @@ public class UshahidiExtensions {
 		while(list.hasMoreIncidents()){
 			UshahidiIncident next = list.nextIncident();
 			for(int i = 0; i < sortedList.size(); i++){
-				if (((UshahidiIncident)sortedList.get(i)).getId() > (next.getId())){ //if next smaller Id than this item in sorted list
+				if (sortedList.get(i).getId() > (next.getId())){ //if next smaller Id than this item in sorted list
 					sortedList.add(i, next);
 					break;
 				} else if (i == sortedList.size() - 1) {
 					sortedList.add(next);
 					break;
-				} else if (((UshahidiIncident)sortedList.get(i)).getId() == (next.getId())) {
+				} else if (sortedList.get(i).getId() == (next.getId())) {
 					throw new Exception("Two Id's should not be the same!");
 				}
 			}//for	
@@ -134,7 +134,7 @@ public class UshahidiExtensions {
 	}
 
 	public static void getExtremes(PrintWriter pen, UshahidiIncidentList list) throws Exception{
-		ArrayList sorted = orderById(list);
+		ArrayList<UshahidiIncident> sorted = orderById(list);
 		pen.println("Smallest Id: ");
 		printIncident(pen, (UshahidiIncident)sorted.get(0));
 		pen.println("Greatest Id: ");
@@ -143,19 +143,19 @@ public class UshahidiExtensions {
 	}
 
 	public static UshahidiIncident[] identifyArray(UshahidiIncidentList list, Calendar startDate, Calendar endDate) throws Exception{
-		ArrayList sorted = orderById(list);
+		ArrayList<UshahidiIncident> sorted = orderById(list);
 		int i = 0;
 		int startIndex = -1;
 		int endIndex = -1;
 			while(startIndex == -1 && i < sorted.size()){
-				if(((UshahidiIncident)sorted.get(i)).getDate().compareTo(startDate) >= 0){
+				if(sorted.get(i).getDate().compareTo(startDate) >= 0){
 					startIndex = i;
 				}else {
 					i++;
 				}
 			}//while
 			while(endIndex == -1 && i < sorted.size()){
-				if(((UshahidiIncident)sorted.get(i)).getDate().compareTo(endDate) >= 0){
+				if(sorted.get(i).getDate().compareTo(endDate) >= 0){
 					endIndex = i-1;
 				}else {
 					i++;

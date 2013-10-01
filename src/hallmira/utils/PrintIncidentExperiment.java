@@ -32,9 +32,9 @@ public class PrintIncidentExperiment {
         start.set(1994, 6, 13);
         end.set(2013, 9, 30);
         UshahidiExtensions.identify(pen, TestUshahidis.createIncidents(),start, end);
-        // One that requires connecting to the server
-        //UshahidiClient webclient = new UshahidiWebClient("https://farmersmarket.crowdmap.com");
-        //UshahidiExtensions.printIncident(pen, webclient.nextIncident());
+        //One that requires connecting to the server
+        UshahidiClient webclient = new UshahidiWebClient("https://farmersmarket.crowdmap.com");
+        UshahidiExtensions.printIncident(pen, webclient.nextIncident());
     } // main(String[])
     
 
